@@ -1,6 +1,8 @@
 create database rootsounds;
 use rootsounds;
 
+desc midia;
+
 drop table midia_usuario;
 drop table curtida;
 drop table comentario;
@@ -23,6 +25,7 @@ create table midia(
     tipo varchar(6) not null,
 	album int null,
     duracao varchar(20),
+    capa varchar(500),
     constraint chk_tipo check(tipo = 'album' or tipo = 'musica'),
     foreign key (album) references midia(idMidia)
 );
