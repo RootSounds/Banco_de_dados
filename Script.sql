@@ -100,3 +100,18 @@ insert into midia_usuario values
 (10,1),
 (11,1),
 (12,1);
+
+create view vw_musicasSemAlbum as 
+select * from midia where album is null and tipo = 'musica';
+select * from vw_musicasSemAlbum;
+
+create view vw_misicasEAlbuns as
+select
+ m.titulo as 'Titulo',
+ year(m.datalancamento) as 'Ano lançamento',
+ m.tipo as 'Tipo',
+ case when m.album is null then '****' else a.titulo end as 'Album',
+ m.duracao as 'Duração'
+ from midia as m 
+ left join midia as a on m.album = a.idMidia;
+select * from vw_misicasEAlbuns;
