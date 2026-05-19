@@ -1,8 +1,6 @@
 create database rootsounds;
 use rootsounds;
 
-desc midia;
-
 drop table midia_usuario;
 drop table curtida;
 drop table comentario;
@@ -24,8 +22,8 @@ create table midia(
     dataLancamento timestamp default current_timestamp,
     tipo varchar(6) not null,
 	album int null,
+    capa varchar(500) default 'https://t2.genius.com/unsafe/600x600/https%3A%2F%2Fimages.genius.com%2F30e254b161cb5f849564f7df3fd7bc9d.1000x1000x1.png',
     duracao varchar(20),
-    capa varchar(500),
     constraint chk_tipo check(tipo = 'album' or tipo = 'musica'),
     foreign key (album) references midia(idMidia)
 );
@@ -62,6 +60,8 @@ create table midia_usuario(
 select * from usuario;
 select * from midia;
 select * from midia_usuario;
+
+
 
 /*adicao de usuarios*/
 insert into usuario values(default, 'andre', 'andre.pissuto@sptech.school', '123');
@@ -100,18 +100,3 @@ insert into midia_usuario values
 (10,1),
 (11,1),
 (12,1);
-
-create view vw_musicasSemAlbum as 
-select * from midia where album is null and tipo = 'musica';
-select * from vw_musicasSemAlbum;
-
-create view vw_misicasEAlbuns as
-select
- m.titulo as 'Titulo',
- year(m.datalancamento) as 'Ano lançamento',
- m.tipo as 'Tipo',
- case when m.album is null then '****' else a.titulo end as 'Album',
- m.duracao as 'Duração'
- from midia as m 
- left join midia as a on m.album = a.idMidia;
-select * from vw_misicasEAlbuns;
