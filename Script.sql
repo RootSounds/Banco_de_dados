@@ -49,11 +49,6 @@ create table curtida(
     primary key(idCurtida, idUsuario, idMidia)
 );
 
-select * from curtida;
-delete from curtida where idUsuario = 1 and idMidia = 1;
-insert into curtida values (default, default, (select idUsuario from usuario where email = 'andre.pissuto@sptech.school'), 1);
-
-
 create table midia_usuario(
 	idMidia int not null,
     idUsuario int not null,
@@ -62,14 +57,12 @@ create table midia_usuario(
     primary key(idMidia, idUsuario)
 );
 
-select * from usuario;
-
 /*adicao de usuarios*/
 insert into usuario values(default, 'andre', 'andre.pissuto@sptech.school', '123');
 insert into usuario values(default, 'miseryswin', 'swin@gmail.com', '123');
 
 /*album sozinho*/
-insert into midia values(default, 'se sonhos pudessem ser guardados', default, 'album', null, '27 minutos');
+insert into midia values(default, 'se sonhos pudessem ser guardados', default, 'Álbum', null, 'https://t2.genius.com/unsafe/881x0/https%3A%2F%2Fimages.genius.com%2Fb20ab9fae1cb7970e5ed546e66625704.1000x1000x1.png', '27 minutos');
 
 /*musicas do album*/
 insert into midia (titulo, dataLancamento, duracao, tipo, album) values
@@ -84,9 +77,8 @@ insert into midia (titulo, dataLancamento, duracao, tipo, album) values
 ('pressa (me deixa voltar só uma semana?)', '2024-10-12 00:00:00', '3:33', 'musica', 1),
 ('hermético (uma cor e um nome)', '2024-10-12 00:00:00', '1:55', 'musica', 1);
 
-
 /*musica sozinha*/
-insert into midia (titulo, dataLancamento, duracao, tipo, album) values ('O mesmo peso de um elefante', default, '2:37', 'musica', null);
+insert into midia (titulo, dataLancamento, duracao, tipo, album, capa) values ('O mesmo peso de um elefante', default, '2:37', 'musica', null, 'https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2Fcc5bb575b4779f85a2d5b6012c9ef209.1000x1000x1.png');
  
 /*tabela associativa*/
 insert into midia_usuario values 
@@ -101,15 +93,9 @@ insert into midia_usuario values
 (9,2),
 (10,2),
 (11,2),
-(12,2),
-(13,2);
+(12,2);
 
-select * from midia;
-select * from usuario;
-
-insert into midia_usuario values (13,2);
-
-alter view vw_midias as
+create view vw_midias as
 select 
 m.idMidia,
 m.titulo,
@@ -124,7 +110,11 @@ m.titulo,
  join usuario as u on mu.idUsuario = u.idUsuario
  where (album is null and tipo = 'album') or (album is null and tipo = 'musica');
  
- select * from vw_midias;
-insert into midia values(default, '#hellyeah', default, 'album', null, '13 minutos e 39 segundos', 'https://t2.genius.com/unsafe/375x0/https%3A%2F%2Fimages.genius.com%2F479e3ed284e45f103a9b9c4e3dd88457.1000x1000x1.png');
-insert into midia values(default, 'TESTE', default, 'album', null, '13 minutos e 39 segundos', 'https://static.decorepronto.com.br/public/decorepronto/imagens/produtos/gravura-poster-para-quadros-capa-album-nevermind-da-banda-nirvana-90x60cm-31369.jpg');
+select * from vw_midias;
+
+insert into midia values(default, '#hellyeah', default, 'album', null,'https://t2.genius.com/unsafe/375x0/https%3A%2F%2Fimages.genius.com%2F479e3ed284e45f103a9b9c4e3dd88457.1000x1000x1.png', '13 minutos e 39 segundos');
+insert into midia values(default, 'TESTE', default, 'album', null,'https://static.decorepronto.com.br/public/decorepronto/imagens/produtos/gravura-poster-para-quadros-capa-album-nevermind-da-banda-nirvana-90x60cm-31369.jpg', '13 minutos e 39 segundos');
+insert into midia_usuario values(13,2);
 insert into midia_usuario values(14,2);
+
+select * from curtida;
